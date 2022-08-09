@@ -11,3 +11,74 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.appBar{
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: lightgreen;
+}
+
+.logo {
+  height: 80px;
+  width: 80px;
+  background-color: lightcoral;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation {
+  width: 70%;
+  height: 80px;
+  background-color: lightseagreen;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tickers_table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 600px;
+  
+}
+
+
+.ticker_row{
+ 
+  border-bottom: 1px solid lightblue;
+  display: flex;  
+  }
+
+  .ticker_row td, th {
+    padding: 5px 15px;
+    /* border-right: 1px solid black; */
+  }
+
+  td, th {margin-right: 20px}
+
+    
+  .ticker_name{    
+    border: 1px solid #212121;
+    border-radius: 5px;
+    width: 15%;
+    text-align: center;
+    /* margin-right: 35%; */
+  }
+
+ .ticker_price{
+  width: 15%;
+ }
+
+ .ticker_change{
+  width: 15%;
+ }
+
+ .ticker_change_percent {
+   width: 25%;
+ }
+
