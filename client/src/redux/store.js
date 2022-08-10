@@ -5,6 +5,7 @@ const mySlice = createSlice({
   initialState: [],
   reducers: {
     setTickers(state, action) {
+      // console.log(action.payload.map());
       return action.payload;
     },
   },

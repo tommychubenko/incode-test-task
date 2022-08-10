@@ -4,7 +4,7 @@ const http = require("http");
 const io = require("socket.io");
 const cors = require("cors");
 
-let FETCH_INTERVAL = 5000;
+let FETCH_INTERVAL = 2000;
 const PORT = process.env.PORT || 4000;
 
 let timer;
@@ -40,6 +40,7 @@ function getQuotes(socket) {
     ticker,
     exchange: "NASDAQ",
     price: randomValue(100, 300, 2),
+    price_change: "no",
     change: randomValue(0, 200, 2),
     change_percent: randomValue(0, 1, 2),
     dividend: randomValue(0, 1, 2),
@@ -98,15 +99,15 @@ socketServer.on("connection", (socket) => {
   });
 
   socket.on("increaseSpeed", (data) => {
-    clearInterval(timer);
+    // clearInterval(timer);
     FETCH_INTERVAL -= data;
-    timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+    // timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
   });
 
   socket.on("decreaseSpeed", (data) => {
-    clearInterval(timer);
+    // clearInterval(timer);
     FETCH_INTERVAL += data;
-    timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+    // timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
   });
 });
 

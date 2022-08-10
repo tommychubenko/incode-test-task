@@ -14,7 +14,8 @@ export const Dashboard = () => {
   useEffect(() => {
     socket.emit("start");
     socket.on("ticker", (resp) => {
-      //   dispatch(setTickers(resp));
+      dispatch(setTickers(resp));
+      // console.log(resp);
     });
   }, []);
 
