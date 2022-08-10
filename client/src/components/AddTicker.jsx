@@ -1,7 +1,6 @@
 import io from "socket.io-client";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { useState, useEffect } from "react";
-import throttle from "lodash/throttle";
 
 const socket = io("http://localhost:4000");
 
@@ -12,6 +11,7 @@ const snp500 = snp500Text.split(" ");
 
 export const AddTicker = () => {
   const [input, setInput] = useState();
+  const [error, setError] = useState("");
   //   const [filteredTickers, setFilteredTickers] = useState();
 
   const onChange = (e) => {
@@ -24,30 +24,57 @@ export const AddTicker = () => {
         return ticket.toUpperCase().includes(input.toUpperCase());
       })
       .map((ticket) => {
-        return <li key={ticket}>{ticket}</li>;
+        return (
+          <li key={ticket} className="filtered_item">
+            <button
+              onClick={() => {
+                onSubmit(ticket);
+              }}
+            >
+              {ticket}
+            </button>
+          </li>
+        );
       });
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    snp500.includes(input.toUpperCase())
-      ? socket.emit("addTicker", input.toUpperCase())
-      : Notify.failure(`There is no ticker with name "${e.target[0].value}"`);
-    setInput("");
+  const onSubmit = (name) => {
+    socket.emit("addTicker", name.toUpperCase());
   };
+
+  socket.on("exist", (data) => {
+    setError(data);
+  });
+
+  useEffect(() => {
+    error && Notify.failure(`${error} is already in you watch list!`);
+  }, [error]);
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="type a ticker"
-          value={input}
-          onChange={onChange}
-        />
-        <button type="submit">Add</button>
-      </form>
-      <ul>{input && throttle(filter, 1000)}</ul>
+      <p>Find a ticker to add this to your watch list</p>
+      <input
+        type="text"
+        placeholder="Type tickers name"
+        value={input}
+        onChange={onChange}
+      />
+
+      {input && (
+        <div>
+          <h3>We have found:</h3>
+
+          <ul className="filtered_list">
+            {filter().length > 0 ? (
+              filter()
+            ) : (
+              <p className="error_message">
+                Sorry, We did not find any tickers under your request...{" "}
+              </p>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

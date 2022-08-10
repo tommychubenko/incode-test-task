@@ -40,10 +40,16 @@ code {
     align-items: center;
 }
 
+.dashboard{
+  padding: 15px 15px;
+  display: flex;
+  gap: 20px;
+}
+
 .tickers_table {
   border-collapse: collapse;
-  table-layout: fixed;
-  width: 600px;
+  /* table-layout: fixed; */
+  /* max-width: 800px; */
   
 }
 
@@ -59,26 +65,60 @@ code {
     /* border-right: 1px solid black; */
   }
 
-  td, th {margin-right: 20px}
+  td, th {
+    width: 150px;
+    text-align: left;
+  }
 
     
   .ticker_name{    
     border: 1px solid #212121;
     border-radius: 5px;
-    width: 15%;
+    /* width: 15%; */
     text-align: center;
     /* margin-right: 35%; */
   }
 
- .ticker_price{
+ /* .ticker_price{
   width: 15%;
  }
 
  .ticker_change{
   width: 15%;
- }
+ } */
 
- .ticker_change_percent {
+ /* .ticker_change_percent {
    width: 25%;
+ } */
+
+ /* .ticker_del--item{
+  width: 5%;
+ } */
+
+    .ticker_del--btn {
+     background-color: white;
+     border: 1px dotted lightblue;
+    }
+
+    .ticker_del--btn:hover {
+      color: #ffffff;
+      background-color: lightcoral;
+    }
+
+ .filtered_list{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
  }
 
+ .filtered_item{
+  margin: 5px;
+ }
+
+.speed_control{
+  display: flex;
+  gap: 10px;
+  /* justify-content: space-between; */
+}

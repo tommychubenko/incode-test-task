@@ -4,8 +4,10 @@ const http = require("http");
 const io = require("socket.io");
 const cors = require("cors");
 
-const FETCH_INTERVAL = 5000;
+let FETCH_INTERVAL = 5000;
 const PORT = process.env.PORT || 4000;
+
+let timer;
 
 const tickers = [
   "AAPL", // Apple
@@ -51,16 +53,20 @@ function getQuotes(socket) {
 function trackTickers(socket) {
   // run the first time immediately
   getQuotes(socket);
-
   // every N seconds
-  const timer = setInterval(function () {
-    getQuotes(socket);
-  }, FETCH_INTERVAL);
+  timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+  socket.on("disconnect", () => clearInterval(timer));
+}
+
+const trackSpeed = (socket) => {
+  const speedInterval = setInterval(() => {
+    socket.emit("getSpeed", FETCH_INTERVAL);
+  }, 250);
 
   socket.on("disconnect", function () {
-    clearInterval(timer);
+    clearInterval(speedInterval);
   });
-}
+};
 
 const app = express();
 app.use(cors());
@@ -80,9 +86,27 @@ socketServer.on("connection", (socket) => {
   socket.on("start", () => {
     trackTickers(socket);
   });
+
+  trackSpeed(socket);
+
   socket.on("addTicker", (data) => {
-    tickers.push(data);
-    console.log(tickers);
+    tickers.includes(data) ? socket.emit("exist", data) : tickers.push(data);
+  });
+  socket.on("delete", (data) => {
+    const index = tickers.indexOf(data);
+    tickers.splice(index, 1);
+  });
+
+  socket.on("increaseSpeed", (data) => {
+    clearInterval(timer);
+    FETCH_INTERVAL -= data;
+    timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+  });
+
+  socket.on("decreaseSpeed", (data) => {
+    clearInterval(timer);
+    FETCH_INTERVAL += data;
+    timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
   });
 });
 

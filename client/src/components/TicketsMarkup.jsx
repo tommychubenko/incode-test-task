@@ -5,6 +5,11 @@ import io from "socket.io-client";
 export const TicketsMarkup = () => {
   const [tickers, setTickers] = useState();
   const socket = io("http://localhost:4000");
+
+  const deleteTicket = (name) => {
+    socket.emit("start");
+    socket.emit("delete", name);
+  };
   // const dispatch = useDispatch();
 
   //   const tickersFromRedux = useSelector((state) => state.tickers);
@@ -20,10 +25,11 @@ export const TicketsMarkup = () => {
     <table className="tickers_table">
       <thead>
         <tr className="ticker_row">
-          <th style={{ width: "15%" }}>Ticker</th>
+          <th>Ticker</th>
           <th className="ticker_price">Price</th>
           <th className="ticker_change">Change:</th>
           <th className="ticker_change_percent">Change percent</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +43,16 @@ export const TicketsMarkup = () => {
                 <td className="ticker_change">{ticker.change}</td>
                 <td className="ticker_change_percent">
                   {ticker.change_percent}
+                </td>
+                <td className="ticker_del--item">
+                  <button
+                    className="ticker_del--btn"
+                    onClick={() => {
+                      deleteTicket(ticker.ticker);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
