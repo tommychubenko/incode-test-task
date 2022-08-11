@@ -10,6 +10,7 @@ const socket = io("http://localhost:4000");
 const fetchTickets = async () => {
   socket.emit("start");
   socket.on("ticker", (resp) => {
+    console.log(resp);
     return resp;
   });
 };
@@ -28,18 +29,30 @@ export const getTickers = createAsyncThunk(
   }
 );
 
+// export const getTickers = createAsyncThunk(
+//   "tickers",
+//   async (userId, thunkAPI) => {
+//     const tickers = await fetchTickets();
+//     // console.log(tickers);
+//     return tickers;
+//   }
+// );
+
 const mySlice = createSlice({
   name: "tickers",
   initialState: [],
   reducers: {
-    setTickers(state, action) {
-      return action.payload;
-    },
-    // extraReducers: {
-    //   setTickers(state, action) {
-    //     return action.payload;
-    //     // console.log(action.payload);
-    //   },
+    // setTickers(state, action) {
+    //   return action.payload;
+    // },
+  },
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(getTickers.fulfilled, (state, action) => {
+      // Add user to the state array
+      // console.log(action.payload);
+      // state.push(action.payload);
+    });
   },
 });
 
@@ -48,3 +61,4 @@ export const store = configureStore({
 });
 
 export const { setTickers } = mySlice.actions;
+// export const { getTickers } = mySlice.actions;

@@ -15,6 +15,7 @@ export const TicketsMarkup = () => {
   const tickersFromRedux = useSelector((state) => state.tickers);
 
   useEffect(() => {
+    // tickersFromRedux.length > 0 &&
     setTickers((prevState) => {
       return tickersFromRedux.map((newItem) => {
         const prevItem = prevState.find(
@@ -43,6 +44,7 @@ export const TicketsMarkup = () => {
   };
 
   return (
+    // tickers.length > 0 &&
     <table className="tickers_table">
       <thead>
         <tr className="ticker_row">

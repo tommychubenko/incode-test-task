@@ -13,11 +13,11 @@ export const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.emit("start");
-    socket.on("ticker", (resp) => {
-      dispatch(setTickers(resp));
-    });
-    // getTickers();
+    // socket.emit("start");
+    // socket.on("ticker", (resp) => {
+    // dispatch(setTickers());
+    // });
+    dispatch(getTickers());
   }, []);
 
   return (
