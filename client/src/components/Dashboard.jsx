@@ -15,7 +15,6 @@ export const Dashboard = () => {
     socket.emit("start");
     socket.on("ticker", (resp) => {
       dispatch(setTickers(resp));
-      // console.log(resp);
     });
   }, []);
 

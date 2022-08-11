@@ -3,50 +3,44 @@ import { useState, useEffect } from "react";
 import io from "socket.io-client";
 
 export const TicketsMarkup = () => {
-  const [tickers, setTickers] = useState([
-    {
-      ticker: "AAPL",
-      exchange: "NASDAQ",
-      price: "284.54",
-      price_change: "no",
-      change: "145.86",
-      change_percent: "0.74",
-      dividend: "0.24",
-      yield: "1.64",
-      last_trade_time: "2022-08-10T08:15:55.000Z",
-    },
-  ]);
+  const [tickers, setTickers] = useState([]);
+
   const socket = io("http://localhost:4000");
 
   const deleteTicket = (name) => {
     socket.emit("start");
     socket.emit("delete", name);
   };
-  // const dispatch = useDispatch();
 
   const tickersFromRedux = useSelector((state) => state.tickers);
 
   useEffect(() => {
-    tickersFromRedux && setTickers(tickersFromRedux);
-
     setTickers((prevState) => {
-      // console.log(prevState.map((i) => i));
-      // tickersFromRedux, console.log(tickers.map((i) => i));
-
-      prevState.map((psObj) =>
-        tickers.map(
-          (sObj) =>
-            psObj.price > sObj.price
-              ? console.log(true)
-              : // [...sObj, (sObj.price_changed = true)]
-                console.log(true)
-          // [...sObj, (sObj.price_changed = false)]
-        )
-      );
+      return tickersFromRedux.map((newItem) => {
+        const prevItem = prevState.find(
+          (item) => item.ticker === newItem.ticker
+        );
+        let price_change = "no";
+        if (prevItem?.price < newItem.price) price_change = "up";
+        if (prevItem?.price > newItem.price) price_change = "down";
+        return {
+          ...newItem,
+          price_change,
+        };
+      });
     });
-
-    // setTickers(tickersFromRedux);
   }, [tickersFromRedux]);
+
+  const getColorByPriceChanged = (data) => {
+    switch (data) {
+      case "up":
+        return "green";
+      case "down":
+        return "red";
+      default:
+        return "white";
+    }
+  };
 
   return (
     <table className="tickers_table">
@@ -66,7 +60,16 @@ export const TicketsMarkup = () => {
               <tr className="ticker_row" key={ticker.ticker}>
                 <td className="ticker_name"> {ticker.ticker} </td>
                 {/* <td className="ticker_exchange">{ticker.exchange}</td> */}
-                <td className="ticker_price">{ticker.price}</td>
+                <td
+                  className="ticker_price"
+                  style={{
+                    backgroundColor: getColorByPriceChanged(
+                      ticker.price_change
+                    ),
+                  }}
+                >
+                  {ticker.price}
+                </td>
                 <td className="ticker_change">{ticker.change}</td>
                 <td className="ticker_change_percent">
                   {ticker.change_percent}
