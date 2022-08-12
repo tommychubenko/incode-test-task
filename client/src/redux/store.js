@@ -1,11 +1,13 @@
 import {
   configureStore,
   createSlice,
-  createAsyncThunk,
+  // createAsyncThunk,
 } from "@reduxjs/toolkit";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:4000");
+
+///// ------ я спеціольно закоментував код, так як намагався підключити AsyncThunk, але десь робив помилку і в мене не вийшло.
 
 // export const fetchTickers = async () => {
 //   socket.emit("start");

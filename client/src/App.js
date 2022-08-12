@@ -1,5 +1,4 @@
-import logo from "./logo.svg";
-import "./App.css";
+// import "./App.css";
 import { Dashboard } from "./components/Dashboard";
 import { AppBar } from "./components/AppBar";
 

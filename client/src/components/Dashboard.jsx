@@ -5,7 +5,6 @@ import io from "socket.io-client";
 import { TicketsMarkup } from "./TicketsMarkup";
 import { AddTicker } from "./AddTicker";
 import { SpeedControl } from "./SpeedControl";
-import { fetchTickers } from "../redux/store";
 
 const socket = io("http://localhost:4000");
 
@@ -20,7 +19,7 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div className="dashboard">
+    <div className="dashboard" data-testid="dashboard">
       <div className="dashboard_tickers">
         <TicketsMarkup />
         <AddTicker />

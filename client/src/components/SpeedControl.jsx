@@ -13,7 +13,7 @@ export const SpeedControl = () => {
   }, []);
 
   return (
-    <div>
+    <div data-testid="speed-control">
       <div className="speed_control">
         <button
           className="speed_control--btn"

@@ -99,14 +99,14 @@ socketServer.on("connection", (socket) => {
   });
 
   socket.on("increaseSpeed", (data) => {
-    clearInterval(timer);
+    // clearInterval(timer);
     FETCH_INTERVAL -= data;
     trackTickers(socket);
     // timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
   });
 
   socket.on("decreaseSpeed", (data) => {
-    clearInterval(timer);
+    // clearInterval(timer);
     FETCH_INTERVAL += data;
     trackTickers(socket);
     // timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);

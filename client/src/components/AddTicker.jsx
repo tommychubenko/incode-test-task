@@ -52,6 +52,7 @@ export const AddTicker = () => {
         type="text"
         placeholder="Type tickers name"
         value={input}
+        data-testid="input"
         onChange={onChange}
       />
 

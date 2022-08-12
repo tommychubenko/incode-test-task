@@ -44,6 +44,11 @@ code {
   padding: 15px 15px;
   display: flex;
   gap: 20px;
+
+}
+
+.dashboard_tickers{
+  flex-basis: 0;
 }
 
 .tickers_table {
