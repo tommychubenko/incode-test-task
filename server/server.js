@@ -72,7 +72,7 @@ function trackTickers(socket) {
   // run the first time immediately
   getQuotes(socket);
   // every N seconds
-  timer = setInterval(() => getQuotes(socket), timerParam());
+  timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
   socket.on("disconnect", () => clearInterval(timer));
 }
 
