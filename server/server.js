@@ -5,6 +5,23 @@ const io = require("socket.io");
 const cors = require("cors");
 
 let FETCH_INTERVAL = 2000;
+
+const timerParam = () => {
+  switch (FETCH_INTERVAL) {
+    case 1000:
+      return 1000;
+    case 2000:
+      return 2000;
+    case 3000:
+      return 3000;
+    case 4000:
+      return 4000;
+    case 5000:
+      return 5000;
+    default:
+      return 2000;
+  }
+};
 const PORT = process.env.PORT || 4000;
 
 let timer;
@@ -55,7 +72,7 @@ function trackTickers(socket) {
   // run the first time immediately
   getQuotes(socket);
   // every N seconds
-  timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+  timer = setInterval(() => getQuotes(socket), timerParam());
   socket.on("disconnect", () => clearInterval(timer));
 }
 
@@ -99,17 +116,20 @@ socketServer.on("connection", (socket) => {
   });
 
   socket.on("increaseSpeed", (data) => {
-    // clearInterval(timer);
-    FETCH_INTERVAL -= data;
-    trackTickers(socket);
-    // timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+    if (FETCH_INTERVAL >= 2000) {
+      // clearInterval(timer);
+      FETCH_INTERVAL -= data;
+      // console.log(timer);
+      // trackTickers(socket);
+    }
   });
 
   socket.on("decreaseSpeed", (data) => {
-    // clearInterval(timer);
-    FETCH_INTERVAL += data;
-    trackTickers(socket);
-    // timer = setInterval(() => getQuotes(socket), FETCH_INTERVAL);
+    if (FETCH_INTERVAL <= 4000) {
+      // clearInterval(timer);
+      FETCH_INTERVAL += data;
+      // trackTickers(socket);
+    }
   });
 });
 
