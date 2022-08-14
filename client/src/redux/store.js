@@ -3,44 +3,21 @@ import {
   createSlice,
   // createAsyncThunk,
 } from "@reduxjs/toolkit";
-import io from "socket.io-client";
 
-const socket = io("http://localhost:4000");
+// import { fetchTickers } from "./tickersApi";
 
-///// ------ я спеціольно закоментував код, так як намагався підключити AsyncThunk, але десь робив помилку і в мене не вийшло.
-
-// export const fetchTickers = async () => {
-//   socket.emit("start");
-//   socket.on("ticker", (resp) => {
-
-//   });
-// };
-
-// const asyncFetchTickers = createAsyncThunk("tickers/fetchTickers", async () => {
-//   const asyncTickers = await fetchTickers();
-//   console.log(asyncFetchTickers);
-//   return asyncFetchTickers;
-// });
-// const fetchTickers = createAsyncThunk();
-
-// export const getTickers = createAsyncThunk(
-//   "tickers / getTickers",
-//   async (_, { rejectWithValue }) => {
+// export const fetchTickersData = createAsyncThunk(
+//   "tickers/fetchTickersData",
+//   async (payload, { dispatch, rejectWithValue }) => {
 //     try {
-//       const tickers = await fetchTickets();
-//       return tickers;
-//     } catch (error) {
-//       return rejectWithValue(error);
+//       const response = await fetchTickers();
+//       return response; // Return a value synchronously using Async-await
+//     } catch (err) {
+//       if (!err.response) {
+//         throw err;
+//       }
+//       return rejectWithValue(err.response);
 //     }
-//   }
-// );
-
-// export const getTickers = createAsyncThunk(
-//   "tickers",
-//   async (userId, thunkAPI) => {
-//     const tickers = await fetchTickets();
-//     // console.log(tickers);
-//     return tickers;
 //   }
 // );
 
@@ -52,13 +29,11 @@ const mySlice = createSlice({
       return action.payload;
     },
   },
-  // extraReducers: (fetchTickers) => {
-  //   // Add reducers for additional action types here, and handle loading state as needed
-  //   fetchTickers.addCase(asyncFetchTickers.fulfilled, (state, action) => {
-  //     // Add user to the state array
-  //     console.log(action.payload);
-  //     // state.push(action.payload);
-  //   });
+
+  // extraReducers: {
+  //   [fetchTickersData.fulfilled]: (state, action) => {
+  //     state = action.payload;
+  //   },
   // },
 });
 
@@ -67,4 +42,3 @@ export const store = configureStore({
 });
 
 export const { setTickers } = mySlice.actions;
-// export const { getTickers } = mySlice.actions;

@@ -19,13 +19,13 @@ code {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: lightgreen;
+  background-color: #4CEA4C;
 }
 
 .logo {
   height: 80px;
   width: 80px;
-  background-color: lightcoral;
+  background-color: #EA4C4C;
   display: flex;
     justify-content: center;
     align-items: center;

@@ -35,9 +35,9 @@ export const TicketsMarkup = () => {
   const getColorByPriceChanged = (data) => {
     switch (data) {
       case "up":
-        return "green";
+        return "#EA4C4C";
       case "down":
-        return "red";
+        return "#4CEA4C";
       default:
         return "white";
     }
